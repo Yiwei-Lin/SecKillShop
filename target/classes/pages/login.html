@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <!-- jquery -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- jquery-validator -->
+    <script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>
+    <!-- layer -->
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <!-- md5.js -->
+    <script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
+    <!-- common.js -->
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+
+	<style th:inline="text">
+		body{
+			background: url("images/background.jpg");
+		}
+		#login-box {
+			padding: 35px;
+			border-radius:15px;
+			background: #56666B;
+			color: #fff;
+		}
+	</style>
+
+</head>
+<body>
+<div class="container" id="top">
+	<div class="row" style="margin-top: 280px; ">
+		<div class="col-md-4"></div>
+		<div class="col-md-4" id="login-box">
+			<form name="loginForm" id="loginForm" class="form-horizontal" role="form" method="post">
+				<div class="form-group">
+					<label class="col-sm-3 control-label">手机号</label>
+					<div class="col-sm-9">
+						<input id="mobile" name = "mobile" class="form-control" type="text" placeholder="手机号" required="true"  minlength="11" maxlength="11" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">密码</label>
+					<div class="col-sm-9">
+						<input id="password" name="password" class="form-control" type="password"  placeholder="密码" required="true" minlength="6" maxlength="16" />
+					</div>
+				</div>
+				<div class="form-group pull-right" style="margin-right: 15px;">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default btn-info" onclick="login()">登录</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-4"></div>
+	</div>
+</div>
+</body>
+<script>
+function login(){
+	$("#loginForm").validate({
+        submitHandler:function(form){
+             doLogin();
+        }    
+    });
+}
+function doLogin(){
+	g_showLoading();
+	
+	var input = $("#password").val();
+	var salt = g_passsword_salt;
+	var saltLen = salt.length;
+	var str = salt.substring(0, saltLen/2) + input + salt.substring(saltLen/2);
+	var password = md5(str);
+	
+	$.ajax({
+		url: "/login",
+	    type: "POST",
+	    data:{
+	    	mobile:$("#mobile").val(),
+	    	password: password
+	    },
+	    success:function(data){
+	    	layer.closeAll();
+	    	if(data.code === 200){
+	    		layer.msg("成功");
+	    		window.location.href="/goods/list";
+	    	}else{
+	    		layer.msg(data.message);
+	    	}
+	    },
+	    error:function(){
+	    	layer.closeAll();
+	    }
+	});
+}
+</script>
+</html>
