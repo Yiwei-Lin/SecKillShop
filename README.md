@@ -1,7 +1,5 @@
 #### **目录**
 
-[声明](#声明)
-
 [项目简介](#项目简介)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[技术栈](#技术栈)
@@ -20,11 +18,6 @@
 
 [总结](#总结)
 
-### 声明
-
-&nbsp;&nbsp; &nbsp;&nbsp; 本项目和本文档仅供学习、交流，请勿用于商业用途。非商业性质的转载请注明原作者和原出处，谢谢！
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[个人CSDN博客](https://blog.csdn.net/Steven_L_)
 
 ### 项目简介
 
